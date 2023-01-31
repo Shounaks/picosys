@@ -8,6 +8,8 @@ import com.example.picosys.exceptions.PartnerCompServiceException;
 import com.example.picosys.repository.UserRepository;
 import com.example.picosys.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +26,24 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+
+    private static AuthenticationResponse generateAuthenticationResponse(User savedUser, String token) {
+        return AuthenticationResponse.builder()
+                .token(token)
+                .employeeId(savedUser.getEmployeeId())
+                .firstName(savedUser.getFirstName())
+                .lastName(savedUser.getLastName())
+                .emailId(savedUser.getEmailId())
+                .location(savedUser.getLocation())
+                .jobTitle(savedUser.getJobTitle())
+                .department(savedUser.getDepartment())
+                .role(savedUser.getRole())
+                .build();
+    }
+
+    public Page<User> retrieveAllUsers(int page) {
+        return userRepository.findAll(PageRequest.of(page,10));
+    }
 
     public Optional<User> retrieveUserById(Long userId) {
         return userRepository.findById(userId);
@@ -57,19 +77,5 @@ public class UserService {
         var user = userRepository.findByEmailId(registerRequest.getEmailId()).orElseThrow(() -> new PartnerCompServiceException("Login Error: User or Password Invalid"));
         var jwtToken = jwtService.generateToken(user.getEmailId());
         return generateAuthenticationResponse(user, jwtToken);
-    }
-
-    private static AuthenticationResponse generateAuthenticationResponse(User savedUser, String token) {
-        return AuthenticationResponse.builder()
-                .token(token)
-                .employeeId(savedUser.getEmployeeId())
-                .firstName(savedUser.getFirstName())
-                .lastName(savedUser.getLastName())
-                .emailId(savedUser.getEmailId())
-                .location(savedUser.getLocation())
-                .jobTitle(savedUser.getJobTitle())
-                .department(savedUser.getDepartment())
-                .role(savedUser.getRole())
-                .build();
     }
 }

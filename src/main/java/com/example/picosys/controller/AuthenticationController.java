@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/digitalbooks/authentication/")
+@RequestMapping("/api/v1/picosys/authentication/")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class AuthenticationController {

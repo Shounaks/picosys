@@ -27,13 +27,11 @@ public class User implements UserDetails {
     private String jobTitle;
     private String department;
     private Role role;
-
-    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
-    private CompensationPlan compensationPlan;
+    private Long compensationPlanId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(role.name()));
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
