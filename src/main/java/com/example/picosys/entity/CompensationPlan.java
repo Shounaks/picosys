@@ -20,6 +20,8 @@ public class CompensationPlan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long planId;
     @NotBlank(message = "compensation Plan Name must not be empty")
+    private String partnerName;
+    @NotBlank(message = "compensation Plan Name must not be empty")
     private String compensationPlanName;
     @NotNull(message = "calculation Methodology must not be empty")
     private CalculationMethodology calculationMethodology;
