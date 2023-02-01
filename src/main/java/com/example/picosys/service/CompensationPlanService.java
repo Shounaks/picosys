@@ -29,6 +29,13 @@ public class CompensationPlanService {
         return savedPlan.getPlanId();
     }
 
+    public CompensationPlan retrieveCompensationPlanForUserId(Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new PartnerCompServiceException("Compensation Retrieve Error: userId is Invalid/Doesn't Exist"));
+        return compensationPlanRepository.findById(user.getCompensationPlanId())
+                .orElseThrow(() -> new PartnerCompServiceException("Compensation Retrieve Error: Compensation Plan Doesn't Exist for this UserId"));
+    }
+
     private void validateCompensationPlanData(Long userId, CompensationPlan compensationPlan) {
         //Check if userID is a compensation Plan USER:
         User user = userRepository.findById(userId)

@@ -21,4 +21,9 @@ public class CompensationPlanController {
     public ResponseEntity<Long> createCompensationPlan(@PathVariable Long userId, @Valid @RequestBody CompensationPlan compensationPlan) {
         return ResponseEntity.ok(compensationPlanService.createCompensationPlan(userId, compensationPlan));
     }
+
+    @GetMapping("{userId}")
+    public ResponseEntity<CompensationPlan> retrieveCompensationPlanForUserId(@PathVariable Long userId){
+        return ResponseEntity.ok(compensationPlanService.retrieveCompensationPlanForUserId(userId));
+    }
 }
