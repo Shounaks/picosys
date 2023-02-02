@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+    @Query("select u from User u where u.compensationPlanId = ?1")
+    Optional<User> findByCompensationPlanId(Long compensationPlanId);
     @Query("select u from User u where u.emailId = ?1")
     Optional<User> findByEmailId(String emailId);
 

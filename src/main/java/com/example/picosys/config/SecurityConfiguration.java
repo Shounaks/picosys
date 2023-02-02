@@ -31,10 +31,9 @@ public class SecurityConfiguration {
                 .permitAll()
                 .antMatchers("/api/v1/picosys/authentication/**")
                 .permitAll()
-                //Everything below this will be authenticated
                 .antMatchers("/api/v1/picosys/planner/**")
                 .hasAnyRole(Role.ADMIN.name(),Role.COMPENSATION_PLAN_USER.name())
-                .antMatchers("/api/v1/picosys/admin/**")
+                .antMatchers("/api/v1/picosys/admin/**","/api/v1/picosys/admin/**/**","/api/v1/picosys/admin/**/**/**")
                 .hasRole(Role.ADMIN.name())
 //                .authenticated()
                 .and()
